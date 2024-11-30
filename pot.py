@@ -1,30 +1,38 @@
 import os
-import asyncio  
+import asyncio
+import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import yt_dlp
 from datetime import datetime
 
-TOKEN = "7783482159:AAG7lYAtwwmikbnHqWvDHcZM6J342nG1LCE"
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 async def download_video(url):  
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     base_file_name = f"downloaded_video_{timestamp}"
     file_path = os.path.join(os.getcwd(), base_file_name)
-    
+
     ydl_opts = {
-        'outtmpl': file_path,  
+        'outtmpl': file_path,
         'format': 'bestvideo+bestaudio/best',
-        'retries': 3,  
-        'noplaylist': True, 
-        'merge_output_format': 'mp4',  
+        'retries': 3,
+        'noplaylist': True,
+        'merge_output_format': 'mp4',
         'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+    except Exception as e:
+        logger.error(f"Error downloading video: {e}")
+        return None
 
     merged_file_path = f"{file_path}.mp4"
-    
     return merged_file_path
 
 async def start(update, context):
@@ -37,16 +45,17 @@ async def download(update, context):
     try:
         file_path = await download_video(url)
 
-        while not os.path.exists(file_path):
-            await asyncio.sleep(1)
+        if file_path and os.path.exists(file_path):
+            await update.message.reply_text("Uploading video...")
+            with open(file_path, "rb") as video_file:
+                await update.message.reply_video(video=video_file)
 
-        await update.message.reply_text("Uploading video...")
-        with open(file_path, "rb") as video_file:
-            await update.message.reply_video(video=video_file)
-        
-        await update.message.reply_text("Video uploaded successfully!")
+            await update.message.reply_text("Video uploaded successfully!")
+        else:
+            await update.message.reply_text("Failed to download the video.")
 
     except Exception as e:
+        logger.error(f"Error in download handler: {e}")
         await update.message.reply_text(f"An error occurred: {str(e)}")
 
 def main():
