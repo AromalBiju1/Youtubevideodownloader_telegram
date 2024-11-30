@@ -10,7 +10,7 @@ TOKEN = "7783482159:AAFCn2j-_c16EMoTKlIflVQBpd3ZXJL-Z5Q"
 async def download_video(url):  
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     base_file_name = f"downloaded_video_{timestamp}"
-    file_path = os.path.join(os.path.expanduser('~'), 'OneDrive', 'Desktop', base_file_name)  
+    file_path = os.path.join(os.getcwd(), base_file_name)  # Save to the current directory instead of OneDrive
     
     ydl_opts = {
         'outtmpl': file_path,  
@@ -18,7 +18,7 @@ async def download_video(url):
         'retries': 3,  
         'noplaylist': True, 
         'merge_output_format': 'mp4',  
-        'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'  
+        'cookies': '/path/to/your/cookies.txt'  # Local path for cookies
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
