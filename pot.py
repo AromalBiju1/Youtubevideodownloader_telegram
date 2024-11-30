@@ -18,7 +18,7 @@ async def download_video(url):
         'retries': 3,  
         'noplaylist': True, 
         'merge_output_format': 'mp4',  
-        'cookies': '/path/to/your/cookies.txt'  # Local path for cookies
+        'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'  # Local path for cookies
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
