@@ -4,13 +4,12 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import yt_dlp
 from datetime import datetime
 
-
 TOKEN = "7783482159:AAFCn2j-_c16EMoTKlIflVQBpd3ZXJL-Z5Q"
 
 async def download_video(url):  
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     base_file_name = f"downloaded_video_{timestamp}"
-    file_path = os.path.join(os.getcwd(), base_file_name)  # Save to the current directory instead of OneDrive
+    file_path = os.path.join(os.getcwd(), base_file_name)
     
     ydl_opts = {
         'outtmpl': file_path,  
@@ -18,7 +17,7 @@ async def download_video(url):
         'retries': 3,  
         'noplaylist': True, 
         'merge_output_format': 'mp4',  
-        'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'  # Local path for cookies
+        'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
