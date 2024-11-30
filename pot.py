@@ -20,7 +20,7 @@ async def download_video(url):
         'retries': 3,  
         'noplaylist': True, 
         'merge_output_format': 'mp4',  
-       'cookies': '/path/to/cookies.txt'
+       'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'
     }
 
    
