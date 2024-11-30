@@ -4,7 +4,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import yt_dlp
 from datetime import datetime
 
-TOKEN = "7783482159:AAFCn2j-_c16EMoTKlIflVQBpd3ZXJL-Z5Q"
+TOKEN = "7783482159:AAG7lYAtwwmikbnHqWvDHcZM6J342nG1LCE"
 
 async def download_video(url):  
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
