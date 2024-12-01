@@ -11,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-async def download_video(url):  
+async def download_video(url, quality):
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     base_file_name = f"downloaded_video_{timestamp}"
     file_path = os.path.join(os.getcwd(), base_file_name)
 
     ydl_opts = {
         'outtmpl': file_path,
-        'format': 'bestvideo+bestaudio/best',
+        'format': quality,
         'retries': 3,
         'noplaylist': True,
         'merge_output_format': 'mp4',
@@ -40,10 +40,13 @@ async def start(update, context):
 
 async def download(update, context):
     url = update.message.text
+    quality = 'bestvideo+bestaudio/best'
+    if 'quality' in context.args:
+        quality = context.args[0]
     await update.message.reply_text("Downloading video...")
 
     try:
-        file_path = await download_video(url)
+        file_path = await download_video(url, quality)
 
         if file_path and os.path.exists(file_path):
             await update.message.reply_text("Uploading video...")
