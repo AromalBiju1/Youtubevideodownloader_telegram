@@ -41,9 +41,12 @@ async def start(update, context):
 async def download(update, context):
     url = update.message.text
     quality = 'bestvideo+bestaudio/best'
-    if 'quality' in context.args:
-        quality = context.args[0]
-    await update.message.reply_text("Downloading video...")
+
+    if context.args:
+        if 'quality' in context.args:
+            quality = context.args[context.args.index('quality') + 1] if len(context.args) > context.args.index('quality') + 1 else 'bestvideo+bestaudio/best'
+
+    await update.message.reply_text(f"Downloading video in {quality} quality...")
 
     try:
         file_path = await download_video(url, quality)
