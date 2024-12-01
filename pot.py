@@ -4,6 +4,7 @@ import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 import yt_dlp
 from datetime import datetime
+import browser_cookie3 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -22,8 +23,7 @@ async def download_video(url, quality):
         'retries': 3,
         'noplaylist': True,
         'merge_output_format': 'mp4',
-        'cookies': 'https://raw.githubusercontent.com/AromalBiju1/Youtubevideodownloader_telegram/refs/heads/main/cookies.txt'
-        'cookies-from-browser': True,
+        'cookies': browser_cookie3.chrome(), 
     }
 
     try:
@@ -75,3 +75,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
