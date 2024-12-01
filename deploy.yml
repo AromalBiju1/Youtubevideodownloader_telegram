@@ -3,7 +3,7 @@ name: Deploy Bot
 on:
   push:
     branches:
-
+      - main  # Replace with the branch you want to deploy from (e.g., main)
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.11.9'  
+        python-version: '3.11.9'
 
     - name: Install dependencies
       run: |
@@ -25,6 +25,7 @@ jobs:
 
     - name: Run bot
       env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}  
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       run: |
-        python bot.py  
+        python bot.py
+
